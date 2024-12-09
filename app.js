@@ -18,8 +18,6 @@ document.getElementById("download").addEventListener("click", async () => {
     const correott_value = correott_element.value.toLowerCase(); // Convertir a minúsculas
     const correo_os_value = correo_os_element.value.toLowerCase(); // Convertir a minúsculas
     const fecha_activacion_value = fecha_activacion_element.value.toUpperCase();
-    const previous_value = previous_element.value.toUpperCase();
-    const after_value = after_element.value.toUpperCase();
     const universidad_value = universidad_element.value.toUpperCase();
     const fechaCartaRaw = new Date(); // Obtiene la fecha actual
     const fechaCarta = fechaCartaRaw.toLocaleDateString("es-ES", {
@@ -35,6 +33,23 @@ document.getElementById("download").addEventListener("click", async () => {
         month: "long",
         year: "numeric",
     });
+
+    const formatCurrency = (value) => {
+        // Convierte el valor en número (si es necesario)
+        let number = parseFloat(value.replace(/,/g, '').replace(/[^0-9.-]/g, ''));
+        if (isNaN(number)) number = 0;
+    
+        // Formatea el número a "###,###.##"
+        return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
+            .format(number)
+            .replace('$', '') + ' M.N.';
+    };
+
+        // Obtén los valores de los elementos
+    const previous_value_raw = previous_element.value;
+    const after_value_raw = after_element.value;
+    const previous_value = formatCurrency(previous_value_raw);
+    const after_value = formatCurrency(after_value_raw);
 
 
     if (!name_tt_value || !contrato_value || !correott_value || !fecha_activacion_value || !previous_value || !after_value || !universidad_value) {
